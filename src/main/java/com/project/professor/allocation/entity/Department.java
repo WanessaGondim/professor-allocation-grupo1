@@ -16,6 +16,7 @@ public class Department {
 	@Column(nullable = false)
 	private String name;
 	
+	
 	public Department() {
 		super();
 		}
@@ -38,8 +39,10 @@ public class Department {
 
 	@Override
 	public String toString() {
-		return super.toString();
+		return "Department [id=" + id + ", name=" + name + "]";
 	}
+
+	
 	
 	
 	
