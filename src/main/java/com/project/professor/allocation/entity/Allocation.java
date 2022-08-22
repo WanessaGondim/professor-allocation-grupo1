@@ -33,10 +33,10 @@ public class Allocation {
 	@Column(nullable = false)
 	private Date end;
 
-	@Column(nullable = false)
+	@Column(name = "course_id", nullable = false)
 	private Long courseId;
 
-	@Column(nullable = false)
+	@Column(name = "professor_id", nullable = false)
 	private Long professorId;
 	
 	@ManyToOne(optional = false)

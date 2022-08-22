@@ -21,7 +21,7 @@ public class Professor {
 	@Column(nullable = false, unique = true)
 	private String cpf;
 
-	@Column(nullable = false)
+	@Column(name = "department_id", nullable = false)
 	private Long departmentId;
 
 	@ManyToOne
