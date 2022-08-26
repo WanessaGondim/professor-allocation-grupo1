@@ -68,4 +68,11 @@ public class CourseRepositoryTest {
 		courseRepository.deleteAllInBatch();
 	}
 
+	@Test
+	public void findByNameContaining() {
+		List<Course> courses = courseRepository.findByNameContaining("magem");
+		System.out.println(courses);
+	}
+	
+	
 }
