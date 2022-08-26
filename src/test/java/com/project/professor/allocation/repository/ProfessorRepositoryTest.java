@@ -40,7 +40,9 @@ public class ProfessorRepositoryTest {
 	@Test
     public void create() {
     	Professor prof1 = new Professor();
-    	prof1.setName("Camila Prado");
+    	prof1.setName("Wanessa Gondim");
+    	prof1.setDepartmentId(1l);
+    	prof1.setCpf("12352145874");
     	System.out.println(prof1);
     	
     	Professor prof = professorRepository.save(prof1);
@@ -51,7 +53,9 @@ public class ProfessorRepositoryTest {
 	public void update() {
 		Professor prof1 = new Professor();
 		prof1.setName("Lorena Amaral");
-		prof1.setId(2l);
+		prof1.setId(1l);
+		prof1.setDepartmentId(1l);
+		prof1.setCpf("98745632101");
 		System.out.println(prof1);
 		
 		Professor prof2 = professorRepository.save(prof1);
