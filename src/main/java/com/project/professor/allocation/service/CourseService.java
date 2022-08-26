@@ -22,7 +22,7 @@ public class CourseService {
 		return course;
 	}
 				
-	public Course Creat(Course department) {
+	public Course create(Course department) {
 		department = courseRepository.save(department);
 		return department;
 	}
