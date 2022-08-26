@@ -35,4 +35,15 @@ public class DepartmentService {
 		departmentRepository.deleteAllInBatch();
 	}
 	
+	public List<Department> findAll() {
+		return departmentRepository.findAll();
+	}
+	
+	public Department updateDepartment(Department department) {
+		Long id = department.getId();
+		if(id != null) {
+			return departmentRepository.save(department);
+		}
+		return null;
+	}
 }

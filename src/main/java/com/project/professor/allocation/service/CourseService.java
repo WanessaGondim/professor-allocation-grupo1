@@ -1,5 +1,7 @@
 package com.project.professor.allocation.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.project.professor.allocation.entity.Course;
@@ -33,4 +35,15 @@ public class CourseService {
 		courseRepository.deleteAllInBatch();
 	}
 	
+	public Course updateCourse(Course course) {
+		Long id = course.getId();
+		if(id != null) {
+			return courseRepository.save(course);
+		}
+		return null;
+	}
+	
+	public List<Course> findAll() {
+		return courseRepository.findAll();
+	}
 }
