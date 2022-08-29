@@ -19,7 +19,7 @@ public class ProfessorService {
 		return professor;
 	}
 				
-	public Professor Creat(Professor department) {
+	public Professor create(Professor department) {
 		department = professorRepository.save(department);
 		return department;
 	}

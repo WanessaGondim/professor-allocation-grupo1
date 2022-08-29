@@ -22,7 +22,7 @@ public class DepartmentService {
 		return department;
 	}
 				
-	public Department Creat(Department department) {
+	public Department create(Department department) {
 		department = departmentRepository.save(department);
 		return department;
 	}
