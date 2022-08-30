@@ -16,34 +16,35 @@ public class DepartmentService {
 		super();
 		this.departmentRepository = departmentRepository;
 	}
-	
+
 	public Department findById(Long id) {
-		Department department = departmentRepository.findById(id).orElse(null);
-		return department;
+		return departmentRepository.findById(id).orElse(null);
 	}
-				
+
 	public Department create(Department department) {
-		department = departmentRepository.save(department);
-		return department;
+		department.setId(null);
+		return departmentRepository.save(department);
 	}
-	
-	public void deleteById (Long id) {
-		departmentRepository.deleteById(id);
-	}
-	
-	public void deleteAll (Long id) {
-		departmentRepository.deleteAllInBatch();
-	}
-	
+
 	public List<Department> findAll() {
 		return departmentRepository.findAll();
 	}
-	
+
 	public Department updateDepartment(Department department) {
 		Long id = department.getId();
-		if(id != null) {
+		if (id != null && departmentRepository.existsById(id)) {
 			return departmentRepository.save(department);
 		}
 		return null;
+	}
+
+	public void deleteById(Long id) {
+		if (departmentRepository.existsById(id)) {
+			departmentRepository.deleteById(id);
+		}
+	}
+
+	public void deleteAll(Long id) {
+		departmentRepository.deleteAllInBatch();
 	}
 }

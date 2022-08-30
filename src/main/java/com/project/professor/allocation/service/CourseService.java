@@ -16,34 +16,35 @@ public class CourseService {
 		super();
 		this.courseRepository = courseRepository;
 	}
-	
+
 	public Course findById(Long id) {
-		Course course = courseRepository.findById(id).orElse(null);
-		return course;
+		return courseRepository.findById(id).orElse(null);
 	}
-				
-	public Course create(Course department) {
-		department = courseRepository.save(department);
-		return department;
+
+	public Course create(Course course) {
+		course.setId(null);
+		return courseRepository.save(course);
 	}
-	
-	public void deleteById (Long id) {
-		courseRepository.deleteById(id);
-	}
-	
-	public void deleteAll (Long id) {
-		courseRepository.deleteAllInBatch();
-	}
-	
+
 	public Course updateCourse(Course course) {
 		Long id = course.getId();
-		if(id != null) {
+		if (id != null && courseRepository.existsById(id)) {
 			return courseRepository.save(course);
 		}
 		return null;
 	}
-	
+
 	public List<Course> findAll() {
 		return courseRepository.findAll();
+	}
+
+	public void deleteById(Long id) {
+		if (courseRepository.existsById(id)) {
+			courseRepository.deleteById(id);
+		}
+	}
+
+	public void deleteAll(Long id) {
+		courseRepository.deleteAllInBatch();
 	}
 }
