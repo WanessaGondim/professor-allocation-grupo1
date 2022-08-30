@@ -19,9 +19,9 @@ public class ProfessorService {
 		return professor;
 	}
 				
-	public Professor create(Professor department) {
-		department = professorRepository.save(department);
-		return department;
+	public Professor create(Professor professor) {
+		professor = professorRepository.save(professor);
+		return professor;
 	}
 	
 	public void deleteById (Long id) {
