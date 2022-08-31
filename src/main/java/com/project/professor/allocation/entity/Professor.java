@@ -24,7 +24,7 @@ public class Professor {
 	@Column(name = "department_id", nullable = false)
 	private Long departmentId;
 
-	@ManyToOne
+	@ManyToOne(optional = false)
 	@JoinColumn(name = "department_id", nullable = false, insertable = false, updatable = false)
 	private Department department;
 

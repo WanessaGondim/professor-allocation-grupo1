@@ -24,20 +24,12 @@ public class AllocationService {
 		this.courseService = courseService;
 	}
 
-	public List<Allocation> findAll() {
-		return allocationRepository.findAll();
-	}
-
 	public Allocation findById(Long id) {
 		return allocationRepository.findById(id).orElse(null);
 	}
-
-	public List<Allocation> findByProfessor(Long professorId) {
-		return allocationRepository.findByProfessorId(professorId);
-	}
-
-	public List<Allocation> findByCourse(Long courseId) {
-		return allocationRepository.findByCourseId(courseId);
+	
+	public List<Allocation> findAll() {
+		return allocationRepository.findAll();
 	}
 
 	private Allocation saveInternal(Allocation allocation) {
@@ -80,5 +72,14 @@ public class AllocationService {
 
 	public void deleteAll() {
 		allocationRepository.deleteAllInBatch();
+	}
+	
+	//CONSULTAS CUSTOMIZADAS
+	public List<Allocation> findByProfessorId(Long professorId) {
+		return allocationRepository.findByProfessorId(professorId);
+	}
+
+	public List<Allocation> findByCourseId(Long courseId) {
+		return allocationRepository.findByCourseId(courseId);
 	}
 }

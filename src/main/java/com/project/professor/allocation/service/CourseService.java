@@ -16,9 +16,13 @@ public class CourseService {
 		super();
 		this.courseRepository = courseRepository;
 	}
-
+	
 	public Course findById(Long id) {
 		return courseRepository.findById(id).orElse(null);
+	}
+	
+	public List<Course> findAll() {
+		return courseRepository.findAll();
 	}
 
 	public Course create(Course course) {
@@ -34,10 +38,6 @@ public class CourseService {
 		return null;
 	}
 
-	public List<Course> findAll() {
-		return courseRepository.findAll();
-	}
-
 	public void deleteById(Long id) {
 		if (courseRepository.existsById(id)) {
 			courseRepository.deleteById(id);
@@ -47,4 +47,24 @@ public class CourseService {
 	public void deleteAll(Long id) {
 		courseRepository.deleteAllInBatch();
 	}
+	
+	//CONSULTAS CUSTOMIZADAS
+	
+	public List<Course> findByNameContaining(String name){
+		return courseRepository.findByNameContaining(name);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
