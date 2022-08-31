@@ -2,6 +2,7 @@ package com.project.professor.allocation.service;
 
 import org.springframework.stereotype.Service;
 
+import com.project.professor.allocation.entity.Department;
 import com.project.professor.allocation.entity.Professor;
 import com.project.professor.allocation.repository.ProfessorRepository;
 
@@ -9,10 +10,13 @@ import com.project.professor.allocation.repository.ProfessorRepository;
 public class ProfessorService {
 
 	private final ProfessorRepository professorRepository;
+	private final DepartmentService departmentService;
 
-	public ProfessorService(ProfessorRepository professorRepository) {
+	public ProfessorService(ProfessorRepository professorRepository, 
+			               DepartmentService departmentService) {
 		super();
 		this.professorRepository = professorRepository;
+		this.departmentService = departmentService;
 	}
 
 	public Professor findById(Long id) {
@@ -22,16 +26,17 @@ public class ProfessorService {
 
 	public Professor create(Professor professor) {
 		professor.setId(null);
-		return professorRepository.save(professor);
+		return saveInternal(professor);
 	}
 
 	public Professor updateProfessor(Professor professor) {
 		Long id = professor.getId();
 		if (id != null && professorRepository.existsById(id)) {
-			return professorRepository.save(professor);
+			return saveInternal(professor);
+		}else {
+			return null;
 		}
-		return null;
-	}
+		}
 
 	public void deleteById(Long id) {
 		if (professorRepository.existsById(id)) {
@@ -43,4 +48,13 @@ public class ProfessorService {
 		professorRepository.deleteAllInBatch();
 	}
 
+	public Professor saveInternal(Professor professor) {
+		Long departmentId = professor.getDepartmentId();
+		Department departmet = departmentService.findById(departmentId);
+		
+		Professor prof2 =  professorRepository.save(professor);
+		prof2.setDepartment(departmet);
+		
+		return prof2;
+	}
 }
