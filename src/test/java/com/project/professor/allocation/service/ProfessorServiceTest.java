@@ -28,6 +28,19 @@ public class ProfessorServiceTest {
 		System.out.println(professors);
 	}
 	
+	@Test
+	public void create() {
+		Professor prof = new Professor();
+		
+		prof.setId(null);
+		prof.setCpf("25412565415");
+		prof.setName(null);
+		prof.setDepartmentId(1l);
+		
+		System.out.println(professorService.create(prof));
+		
+		
+	}
 	
 	
 }
