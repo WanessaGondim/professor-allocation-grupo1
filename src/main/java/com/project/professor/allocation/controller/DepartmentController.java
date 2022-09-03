@@ -37,7 +37,7 @@ public class DepartmentController {
 		if (name == null) {
 			departments = departmentService.findAll();
 		} else {
-			departments = departmentService.findAll();
+			departments = departmentService.findByNameContaining(name);
 		}
 
 		return new ResponseEntity<>(departments, HttpStatus.OK);
