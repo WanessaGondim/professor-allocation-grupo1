@@ -30,7 +30,7 @@ public class CourseService {
 		return courseRepository.save(course);
 	}
 
-	public Course updateCourse(Course course) {
+	public Course update(Course course) {
 		Long id = course.getId();
 		if (id != null && courseRepository.existsById(id)) {
 			return courseRepository.save(course);
@@ -44,7 +44,7 @@ public class CourseService {
 		}
 	}
 
-	public void deleteAll(Long id) {
+	public void deleteAll() {
 		courseRepository.deleteAllInBatch();
 	}
 	

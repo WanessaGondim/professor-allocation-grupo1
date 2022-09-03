@@ -22,20 +22,29 @@ public class ProfessorService {
 	}
 
 	public Professor findById(Long id) {
-		Professor professor = professorRepository.findById(id).orElse(null);
-		return professor;
+		return professorRepository.findById(id).orElse(null);
 	}
 	
 	public List<Professor> findAll(){
 		return professorRepository.findAll(); 
 	}
 
+	public Professor saveInternal(Professor professor) {
+		Long professorDepartId = professor.getDepartmentId();
+		Department departmet = departmentService.findById(professorDepartId);
+		
+		Professor prof2 =  professorRepository.save(professor);
+		prof2.setDepartment(departmet);
+		
+		return prof2;
+	}
+	
 	public Professor create(Professor professor) {
 		professor.setId(null);
 		return saveInternal(professor);
 	}
 
-	public Professor updateProfessor(Professor professor) {
+	public Professor update(Professor professor) {
 		Long id = professor.getId();
 		if (id != null && professorRepository.existsById(id)) {
 			return saveInternal(professor);
@@ -50,7 +59,7 @@ public class ProfessorService {
 		}
 	}
 
-	public void deleteAll(Long id) {
+	public void deleteAll() {
 		professorRepository.deleteAllInBatch();
 	}
 	
@@ -69,13 +78,5 @@ public class ProfessorService {
 	}
 	
 
-	public Professor saveInternal(Professor professor) {
-		Long departmentId = professor.getDepartmentId();
-		Department departmet = departmentService.findById(departmentId);
-		
-		Professor prof2 =  professorRepository.save(professor);
-		prof2.setDepartment(departmet);
-		
-		return prof2;
-	}
+	
 }

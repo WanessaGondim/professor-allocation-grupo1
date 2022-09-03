@@ -13,7 +13,7 @@ import com.project.professor.allocation.entity.Allocation;
 import com.project.professor.allocation.service.AllocationService;
 
 @RestController
-@RequestMapping(path = "/departments")
+@RequestMapping(path = "/allocations")
 public class AllocationController {
 	
 	private final AllocationService allocationService;

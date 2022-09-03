@@ -15,7 +15,7 @@ public interface DepartmentRepository extends JpaRepository<Department,Long> {
 	List<Department> findByNameContaining (String name);
 	
 	//SELECT * FROM department where first name ending WITH '%1?%'
-	List<Department> findByFisrtNameEndingWith (String name);
+	List<Department> findByNameEndingWith (String name);
 	
 }
 

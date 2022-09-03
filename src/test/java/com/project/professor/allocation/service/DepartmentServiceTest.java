@@ -28,6 +28,55 @@ public class DepartmentServiceTest {
 		System.out.println(departments);
 	}
 	
+	@Test
+	public void create() {
+		Department depart = new Department();
+		depart.setName("Departamento Historia");
+		departmentService.create(depart);
+		System.out.println(depart);
+	}
+	
+	@Test
+	public void update() {
+		Department depart = new Department();
+		depart.setId(4l);
+		depart.setName("Departamento Geografia");
+		departmentService.update(depart);
+	}
+	
+	@Test
+	public void deleteById() {
+		departmentService.deleteById(4l);	
+	}
+	
+	@Test
+	public void deleteAll() {
+		departmentService.deleteAll();
+	}
+	
+	//TESTE CONSULTAS CUSTOMIZADAS
+	
+	@Test
+	public void findByNameContaining() {
+		List<Department> depart = departmentService.findByNameContaining("tica");
+		System.out.println(depart);
+	}
+	
+	@Test
+	public void findByNameEndingWith() {
+		List<Department> depart = departmentService.findByNameEndingWith("ia");
+		System.out.println(depart);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 }

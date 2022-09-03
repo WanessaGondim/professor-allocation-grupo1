@@ -6,7 +6,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-
 @Entity
 public class Course {
 	@Id
@@ -16,7 +15,6 @@ public class Course {
 	@Column(nullable = false)
 	private String name;
 	
-
 	public Course() {
 		super();
 	}
@@ -41,5 +39,9 @@ public class Course {
 	public String toString() {
 		return "Course [id=" + id + ", name=" + name + "]";
 	}
-
+	
+	
+	
+	
+	
 }

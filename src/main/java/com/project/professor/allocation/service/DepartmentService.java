@@ -22,7 +22,7 @@ public class DepartmentService {
 	}
 	
 	public List<Department> findAll() {
-		return departmentRepository.findAll();
+			return departmentRepository.findAll();	
 	}
 
 	public Department create(Department department) {
@@ -30,7 +30,7 @@ public class DepartmentService {
 		return departmentRepository.save(department);
 	}
 
-	public Department updateDepartment(Department department) {
+	public Department update(Department department) {
 		Long id = department.getId();
 		if (id != null && departmentRepository.existsById(id)) {
 			return departmentRepository.save(department);
@@ -44,7 +44,7 @@ public class DepartmentService {
 		}
 	}
 
-	public void deleteAll(Long id) {
+	public void deleteAll() {
 		departmentRepository.deleteAllInBatch();
 	}
 	
@@ -54,8 +54,8 @@ public class DepartmentService {
 		return departmentRepository.findByNameContaining(name);
 	}
 	
-	public List<Department> findByFisrtNameEndingWith(String name){
-		return departmentRepository.findByFisrtNameEndingWith(name);
+	public List<Department> findByNameEndingWith(String name){
+		return departmentRepository.findByNameEndingWith(name);
 	}
 	
 	

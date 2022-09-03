@@ -23,63 +23,58 @@ public class AllocationService {
 		this.professorService = professorService;
 		this.courseService = courseService;
 	}
-
+	
+	public List<Allocation> findAll(){
+		return allocationRepository.findAll();
+		}
+	
 	public Allocation findById(Long id) {
 		return allocationRepository.findById(id).orElse(null);
 	}
 	
-	public List<Allocation> findAll() {
-		return allocationRepository.findAll();
-	}
-
 	private Allocation saveInternal(Allocation allocation) {
+		allocation = allocationRepository.save(allocation);
 
-		Long professorId = allocation.getProfessorId();
-		Professor professor = professorService.findById(professorId);
+		Professor professor = professorService.findById(allocation.getProfessorId());
+		allocation.setProfessor(professor);
 
-		Long courseId = allocation.getCourseId();
-		Course course = courseService.findById(courseId);
+		Course course = courseService.findById(allocation.getCourseId());
+		allocation.setCourse(course);
 
-		Allocation allocationSaved = allocationRepository.save(allocation);
-
-		allocationSaved.setProfessor(professor);
-		return allocationSaved;
-
+		return allocation;
 	}
-
+	
 	public Allocation create(Allocation allocation) {
 		allocation.setId(null);
 		return saveInternal(allocation);
-
 	}
-
+	
 	public Allocation update(Allocation allocation) {
 		Long id = allocation.getId();
-
 		if (id != null && allocationRepository.existsById(id)) {
 			return saveInternal(allocation);
 		} else {
 			return null;
 		}
 	}
-
+	
 	public void deleteById(Long id) {
-		if (id != null && allocationRepository.existsById(id)) {
+		if (allocationRepository.existsById(id)) {
 			allocationRepository.deleteById(id);
 		}
-
 	}
-
+	
 	public void deleteAll() {
 		allocationRepository.deleteAllInBatch();
 	}
 	
 	//CONSULTAS CUSTOMIZADAS
-	public List<Allocation> findByProfessorId(Long professorId) {
-		return allocationRepository.findByProfessorId(professorId);
-	}
-
-	public List<Allocation> findByCourseId(Long courseId) {
+	
+	public List<Allocation> findByCourse(Long courseId){
 		return allocationRepository.findByCourseId(courseId);
+	}
+	
+	public List<Allocation> findByProfessorId(Long professorId){
+		return allocationRepository.findByProfessorId(professorId);
 	}
 }
