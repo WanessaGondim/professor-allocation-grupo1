@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.project.exceptions.HasCollisionException;
 import com.project.professor.allocation.entity.Allocation;
 import com.project.professor.allocation.entity.Course;
 import com.project.professor.allocation.entity.Professor;
@@ -23,33 +24,21 @@ public class AllocationService {
 		this.professorService = professorService;
 		this.courseService = courseService;
 	}
-	
-	public List<Allocation> findAll(){
+
+	public List<Allocation> findAll() {
 		return allocationRepository.findAll();
-		}
-	
+	}
+
 	public Allocation findById(Long id) {
 		return allocationRepository.findById(id).orElse(null);
 	}
-	
-	private Allocation saveInternal(Allocation allocation) {
-		allocation = allocationRepository.save(allocation);
 
-		Professor professor = professorService.findById(allocation.getProfessorId());
-		allocation.setProfessor(professor);
-
-		Course course = courseService.findById(allocation.getCourseId());
-		allocation.setCourse(course);
-
-		return allocation;
-	}
-	
-	public Allocation create(Allocation allocation) {
+	public Allocation create(Allocation allocation) throws HasCollisionException {
 		allocation.setId(null);
 		return saveInternal(allocation);
 	}
-	
-	public Allocation update(Allocation allocation) {
+
+	public Allocation update(Allocation allocation) throws HasCollisionException {
 		Long id = allocation.getId();
 		if (id != null && allocationRepository.existsById(id)) {
 			return saveInternal(allocation);
@@ -57,24 +46,71 @@ public class AllocationService {
 			return null;
 		}
 	}
-	
+
+	// CONSULTAS CUSTOMIZADAS
+
+	public List<Allocation> findByCourse(Long courseId) {
+		return allocationRepository.findByCourseId(courseId);
+	}
+
+	public List<Allocation> findByProfessorId(Long professorId) {
+		return allocationRepository.findByProfessorId(professorId);
+	}
+
 	public void deleteById(Long id) {
 		if (allocationRepository.existsById(id)) {
 			allocationRepository.deleteById(id);
 		}
 	}
-	
+
 	public void deleteAll() {
 		allocationRepository.deleteAllInBatch();
 	}
-	
-	//CONSULTAS CUSTOMIZADAS
-	
-	public List<Allocation> findByCourse(Long courseId){
-		return allocationRepository.findByCourseId(courseId);
+
+	private Allocation saveInternal(Allocation allocation) throws HasCollisionException {
+		if (!isEndHourGreaterThanStartHour(allocation) || hasCollision(allocation)) {
+			throw new HasCollisionException();
+		} else {
+			Long professorId = allocation.getProfessorId();
+			Professor professor = professorService.findById(professorId);
+
+			Long courseId = allocation.getCourseId();
+			Course course = courseService.findById(courseId);
+
+			Allocation allocationSaved = allocationRepository.save(allocation);
+
+			allocationSaved.setProfessor(professor);
+			allocationSaved.setCourse(course);
+
+			return allocationSaved;
+		}
 	}
-	
-	public List<Allocation> findByProfessorId(Long professorId){
-		return allocationRepository.findByProfessorId(professorId);
+
+	private boolean hasCollision(Allocation newAllocation) {
+		boolean hasCollision = false;
+
+		List<Allocation> currentAllocations = allocationRepository.findByProfessorId(newAllocation.getProfessorId());
+
+		for (Allocation currentAllocation : currentAllocations) {
+			hasCollision = hasCollision(currentAllocation, newAllocation);
+			if (hasCollision) {
+				break;
+			}
+		}
+
+		return hasCollision;
 	}
+
+	private boolean hasCollision(Allocation currentAllocation, Allocation newAllocation) {
+		return !currentAllocation.getId().equals(newAllocation.getId())
+				&& currentAllocation.getDay() == newAllocation.getDay()
+				&& currentAllocation.getStart().compareTo(newAllocation.getEnd()) < 0
+				&& newAllocation.getStart().compareTo(currentAllocation.getEnd()) < 0;
+	}
+
+	boolean isEndHourGreaterThanStartHour(Allocation allocation) {
+		return allocation != null && allocation.getStart() != null && allocation.getEnd() != null
+				&& allocation.getEnd().compareTo(allocation.getStart()) > 0;
+	}
+
 }
