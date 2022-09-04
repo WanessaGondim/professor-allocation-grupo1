@@ -49,7 +49,7 @@ public class AllocationService {
 
 	// CONSULTAS CUSTOMIZADAS
 
-	public List<Allocation> findByCourse(Long courseId) {
+	public List<Allocation> findByCourseId(Long courseId) {
 		return allocationRepository.findByCourseId(courseId);
 	}
 
@@ -85,6 +85,8 @@ public class AllocationService {
 			return allocationSaved;
 		}
 	}
+	
+	//REGRA DE NEGÓCIO
 
 	private boolean hasCollision(Allocation newAllocation) {
 		boolean hasCollision = false;
@@ -108,6 +110,8 @@ public class AllocationService {
 				&& newAllocation.getStart().compareTo(currentAllocation.getEnd()) < 0;
 	}
 
+	
+	
 	boolean isEndHourGreaterThanStartHour(Allocation allocation) {
 		return allocation != null && allocation.getStart() != null && allocation.getEnd() != null
 				&& allocation.getEnd().compareTo(allocation.getStart()) > 0;
