@@ -16,11 +16,11 @@ public class DepartmentService {
 		super();
 		this.departmentRepository = departmentRepository;
 	}
-	
+
 	public Department findById(Long id) {
 		return departmentRepository.findById(id).orElse(null);
 	}
-	
+
 	public List<Department> findAll() {
 			return departmentRepository.findAll();	
 	}
@@ -47,18 +47,21 @@ public class DepartmentService {
 	public void deleteAll() {
 		departmentRepository.deleteAllInBatch();
 	}
-	
-	//CONSULTAS CUSTOMIZADAS
-	
-	public List<Department> findByNameContaining(String name){
+
+	// CONSULTAS CUSTOMIZADAS
+
+	public List<Department> findByNameContaining(String name) {
 		return departmentRepository.findByNameContaining(name);
 	}
+<<<<<<< Updated upstream
 	
 	public List<Department> findByNameEndingWith(String name){
 		return departmentRepository.findByNameEndingWith(name);
+=======
+
+	public List<Department> findByFisrtNameEndingWith(String name) {
+		return departmentRepository.findByFisrtNameEndingWith(name);
+>>>>>>> Stashed changes
 	}
-	
-	
-	
-	
+
 }

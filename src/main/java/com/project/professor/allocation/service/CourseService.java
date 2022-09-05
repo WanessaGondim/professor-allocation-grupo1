@@ -16,11 +16,11 @@ public class CourseService {
 		super();
 		this.courseRepository = courseRepository;
 	}
-	
+
 	public Course findById(Long id) {
 		return courseRepository.findById(id).orElse(null);
 	}
-	
+
 	public List<Course> findAll() {
 		return courseRepository.findAll();
 	}
@@ -47,24 +47,11 @@ public class CourseService {
 	public void deleteAll() {
 		courseRepository.deleteAllInBatch();
 	}
-	
-	//CONSULTAS CUSTOMIZADAS
-	
-	public List<Course> findByNameContaining(String name){
+
+	// CONSULTAS CUSTOMIZADAS
+
+	public List<Course> findByNameContaining(String name) {
 		return courseRepository.findByNameContaining(name);
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 }

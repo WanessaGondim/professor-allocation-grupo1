@@ -14,8 +14,7 @@ public class ProfessorService {
 	private final ProfessorRepository professorRepository;
 	private final DepartmentService departmentService;
 
-	public ProfessorService(ProfessorRepository professorRepository, 
-			               DepartmentService departmentService) {
+	public ProfessorService(ProfessorRepository professorRepository, DepartmentService departmentService) {
 		super();
 		this.professorRepository = professorRepository;
 		this.departmentService = departmentService;
@@ -24,9 +23,9 @@ public class ProfessorService {
 	public Professor findById(Long id) {
 		return professorRepository.findById(id).orElse(null);
 	}
-	
-	public List<Professor> findAll(){
-		return professorRepository.findAll(); 
+
+	public List<Professor> findAll() {
+		return professorRepository.findAll();
 	}
 
 	public Professor saveInternal(Professor professor) {
@@ -48,10 +47,10 @@ public class ProfessorService {
 		Long id = professor.getId();
 		if (id != null && professorRepository.existsById(id)) {
 			return saveInternal(professor);
-		}else {
+		} else {
 			return null;
 		}
-		}
+	}
 
 	public void deleteById(Long id) {
 		if (professorRepository.existsById(id)) {
@@ -62,21 +61,33 @@ public class ProfessorService {
 	public void deleteAll() {
 		professorRepository.deleteAllInBatch();
 	}
-	
-	//CONSULTAS CUSTOMIZADAS
-	
-	public List<Professor> findByDepartmentId (Long department_id){
+
+	// CONSULTAS CUSTOMIZADAS
+
+	public List<Professor> findByDepartmentId(Long department_id) {
 		return professorRepository.findByDepartmentId(department_id);
 	}
-	
-	public Professor findByCpf (String cpf) {
+
+	public Professor findByCpf(String cpf) {
 		return professorRepository.findByCpf(cpf);
 	}
-	
-	public List<Professor> findByNameContaining (String name){
+
+	public List<Professor> findByNameContaining(String name) {
 		return professorRepository.findByNameContaining(name);
 	}
-	
 
+<<<<<<< Updated upstream
 	
+=======
+	public Professor saveInternal(Professor professor) {
+		Long departmentId = professor.getDepartmentId();
+		Department departmet = departmentService.findById(departmentId);
+
+		Professor prof2 = professorRepository.save(professor);
+		prof2.setDepartment(departmet);
+
+		return prof2;
+	}
+
+>>>>>>> Stashed changes
 }
