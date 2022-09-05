@@ -18,32 +18,47 @@ public class DepartmentService {
 	}
 	
 	public Department findById(Long id) {
-		Department department = departmentRepository.findById(id).orElse(null);
-		return department;
-	}
-				
-	public Department create(Department department) {
-		department = departmentRepository.save(department);
-		return department;
-	}
-	
-	public void deleteById (Long id) {
-		departmentRepository.deleteById(id);
-	}
-	
-	public void deleteAll (Long id) {
-		departmentRepository.deleteAllInBatch();
+		return departmentRepository.findById(id).orElse(null);
 	}
 	
 	public List<Department> findAll() {
-		return departmentRepository.findAll();
+			return departmentRepository.findAll();	
 	}
-	
-	public Department updateDepartment(Department department) {
+
+	public Department create(Department department) {
+		department.setId(null);
+		return departmentRepository.save(department);
+	}
+
+	public Department update(Department department) {
 		Long id = department.getId();
-		if(id != null) {
+		if (id != null && departmentRepository.existsById(id)) {
 			return departmentRepository.save(department);
 		}
 		return null;
 	}
+
+	public void deleteById(Long id) {
+		if (departmentRepository.existsById(id)) {
+			departmentRepository.deleteById(id);
+		}
+	}
+
+	public void deleteAll() {
+		departmentRepository.deleteAllInBatch();
+	}
+	
+	//CONSULTAS CUSTOMIZADAS
+	
+	public List<Department> findByNameContaining(String name){
+		return departmentRepository.findByNameContaining(name);
+	}
+	
+	public List<Department> findByNameEndingWith(String name){
+		return departmentRepository.findByNameEndingWith(name);
+	}
+	
+	
+	
+	
 }

@@ -12,5 +12,7 @@ public interface CourseRepository extends JpaRepository<Course, Long>{
 
 	//SELECT * FROM course WHERE name LIKE '%1?%'
 		List<Course> findByNameContaining (String name);
+		
+	
 	
 }

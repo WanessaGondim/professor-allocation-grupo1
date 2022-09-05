@@ -18,32 +18,53 @@ public class CourseService {
 	}
 	
 	public Course findById(Long id) {
-		Course course = courseRepository.findById(id).orElse(null);
-		return course;
-	}
-				
-	public Course create(Course department) {
-		department = courseRepository.save(department);
-		return department;
-	}
-	
-	public void deleteById (Long id) {
-		courseRepository.deleteById(id);
-	}
-	
-	public void deleteAll (Long id) {
-		courseRepository.deleteAllInBatch();
-	}
-	
-	public Course updateCourse(Course course) {
-		Long id = course.getId();
-		if(id != null) {
-			return courseRepository.save(course);
-		}
-		return null;
+		return courseRepository.findById(id).orElse(null);
 	}
 	
 	public List<Course> findAll() {
 		return courseRepository.findAll();
 	}
+
+	public Course create(Course course) {
+		course.setId(null);
+		return courseRepository.save(course);
+	}
+
+	public Course update(Course course) {
+		Long id = course.getId();
+		if (id != null && courseRepository.existsById(id)) {
+			return courseRepository.save(course);
+		}
+		return null;
+	}
+
+	public void deleteById(Long id) {
+		if (courseRepository.existsById(id)) {
+			courseRepository.deleteById(id);
+		}
+	}
+
+	public void deleteAll() {
+		courseRepository.deleteAllInBatch();
+	}
+	
+	//CONSULTAS CUSTOMIZADAS
+	
+	public List<Course> findByNameContaining(String name){
+		return courseRepository.findByNameContaining(name);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

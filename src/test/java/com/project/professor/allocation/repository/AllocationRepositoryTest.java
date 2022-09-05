@@ -81,4 +81,10 @@ public class AllocationRepositoryTest {
 		allocationRepository.deleteAllInBatch();
 	}
 
+	@Test
+	public void deleteByProfId() {
+	List<Allocation> allocationList = allocationRepository.findByProfessorId(1l);
+	System.out.println(allocationList);
+	}
+	
 }
