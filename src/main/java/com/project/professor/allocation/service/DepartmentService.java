@@ -53,15 +53,10 @@ public class DepartmentService {
 	public List<Department> findByNameContaining(String name) {
 		return departmentRepository.findByNameContaining(name);
 	}
-<<<<<<< Updated upstream
-	
-	public List<Department> findByNameEndingWith(String name){
-		return departmentRepository.findByNameEndingWith(name);
-=======
 
-	public List<Department> findByFisrtNameEndingWith(String name) {
-		return departmentRepository.findByFisrtNameEndingWith(name);
->>>>>>> Stashed changes
+	public List<Department> findByNameEndingWith(String name) {
+		return departmentRepository.findByNameEndingWith(name);
 	}
+
 
 }

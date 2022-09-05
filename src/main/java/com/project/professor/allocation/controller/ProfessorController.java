@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.project.professor.allocation.entity.Department;
 import com.project.professor.allocation.entity.Professor;
 import com.project.professor.allocation.service.ProfessorService;
 
@@ -74,9 +73,11 @@ public class ProfessorController {
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 
-@DeleteMapping
-@ResponseStatus(HttpStatus.NO_CONTENT)
-public ResponseEntity<Void> deleteAll(){
-professorService.deleteAll();
-return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+	@DeleteMapping
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public ResponseEntity<Void> deleteAll(){
+		professorService.deleteAll();
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+	}
+
 }

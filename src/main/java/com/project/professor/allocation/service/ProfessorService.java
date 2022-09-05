@@ -76,18 +76,5 @@ public class ProfessorService {
 		return professorRepository.findByNameContaining(name);
 	}
 
-<<<<<<< Updated upstream
-	
-=======
-	public Professor saveInternal(Professor professor) {
-		Long departmentId = professor.getDepartmentId();
-		Department departmet = departmentService.findById(departmentId);
 
-		Professor prof2 = professorRepository.save(professor);
-		prof2.setDepartment(departmet);
-
-		return prof2;
-	}
-
->>>>>>> Stashed changes
 }
