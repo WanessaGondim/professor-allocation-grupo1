@@ -58,7 +58,7 @@ public class CourseServiceTest {
 	
 	@Test
 	public void findByNameContaining() {
-		courseService.findByNameContaining("magem");
+		System.out.println(courseService.findByNameContaining("magem"));
 	}
 	
 	

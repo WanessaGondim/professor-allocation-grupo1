@@ -62,17 +62,17 @@ public class ProfessorServiceTest {
 	
 	@Test
 	public void findByDepartmentId() {
-		professorService.findByDepartmentId(2l);
+		System.out.println(professorService.findByDepartmentId(2l));
 	}
 	
 	@Test
 	public void findByCpf() {
-		professorService.findByCpf("25412565411");
+		System.out.println(professorService.findByCpf("25412565411"));
 	}
 	
 	@Test
 	public void findByNameContaining() {
-		professorService.findByNameContaining("mila");
+		System.out.println(professorService.findByNameContaining("mila"));
 	}
 	
 	

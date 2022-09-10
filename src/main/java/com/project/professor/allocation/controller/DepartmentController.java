@@ -19,6 +19,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.project.professor.allocation.entity.Department;
 import com.project.professor.allocation.service.DepartmentService;
 
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+
 @RestController
 @RequestMapping(path = "/departments")
 public class DepartmentController {
@@ -30,7 +34,12 @@ public class DepartmentController {
 		this.departmentService = departmentService;
 	}
 	
+	@ApiOperation(value = "Find all departments")
+	@ApiResponses({
+		@ApiResponse(code = 200, message = "OK")
+	})
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseStatus(HttpStatus.OK)
 	public ResponseEntity<List<Department>> findAll(@RequestParam(name = "name", required = false) String name) {
 		List<Department> departments;
 
@@ -43,8 +52,14 @@ public class DepartmentController {
 		return new ResponseEntity<>(departments, HttpStatus.OK);
 	}
 	
-	
+	@ApiOperation(value = "Find a department by Id")
+	@ApiResponses({
+		@ApiResponse(code = 200, message = "OK"),
+		@ApiResponse(code = 400, message = "BAD REQUEST"),
+		@ApiResponse(code = 404, message = "NOT FOUND")
+	})
 	@GetMapping(path = "/{department_id}" ,produces = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseStatus(HttpStatus.OK)
 	public ResponseEntity<Department> findById(@PathVariable(name = "department_id") Long id) {
 		Department department = departmentService.findById(id);
 		if (department == null) {
@@ -54,7 +69,13 @@ public class DepartmentController {
 		}
 	}
 	
+	@ApiOperation(value = "Create a department")
+	@ApiResponses({
+		@ApiResponse(code = 201, message = "OK"),
+		@ApiResponse(code = 400, message = "BAD REQUEST")
+	})
 	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseStatus(HttpStatus.CREATED)
 	public ResponseEntity<Department> create(@RequestBody Department department){
 		
 		try {
@@ -65,7 +86,14 @@ public class DepartmentController {
 		}	
 	}
 	
+	@ApiOperation(value = "Update a department by Id")
+	@ApiResponses({
+		@ApiResponse(code = 200, message = "OK"),
+		@ApiResponse(code = 400, message = "BAD REQUEST"),
+		@ApiResponse(code = 404, message = "NOT FOUND")
+	})
 	@PutMapping(path = "/{department_id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseStatus(HttpStatus.OK)
 	public ResponseEntity<Department> update(@RequestBody Department department, 
 											 @PathVariable(name = "department_id", required=true) Long departmentId){
 		try {
@@ -80,13 +108,22 @@ public class DepartmentController {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 	}
-
+	
+	@ApiOperation(value = "Delete a department by Id")
+	@ApiResponses({
+		@ApiResponse(code = 204, message = "NO CONTENT")
+	})
 	@DeleteMapping(path = "/{department_id}")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public ResponseEntity<Void> deleteDpt(@PathVariable(name = "department_id") Long id) {
 		departmentService.deleteById(id);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 
+	@ApiOperation(value = "Delete all departments")
+	@ApiResponses({
+		@ApiResponse(code = 204, message = "NO CONTENT")
+	})
 	@DeleteMapping
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public ResponseEntity<Void> deleteAll(){

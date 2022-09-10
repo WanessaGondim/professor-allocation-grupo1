@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.professor.allocation.entity.Allocation;
-import com.project.professor.allocation.entity.Department;
 import com.project.professor.allocation.service.AllocationService;
 
 @RestController
@@ -45,17 +44,17 @@ public class AllocationController {
 		}
 	}
 
-	@GetMapping(path = "/{professor/professor_id}",produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(path = "/professor/{professor_id}",produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Allocation>> findByProfessor(@PathVariable(name = "professor_id") Long id) {
 		List<Allocation> allocation = allocationService.findByProfessorId(id);
-		return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<>(allocation, HttpStatus.OK);
 
 	}
 
-	@GetMapping(path = "/{course/course_id}",produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(path = "/course/{course_id}",produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Allocation>> findByCourse(@PathVariable(name="course_id")Long id){
 		List<Allocation>allocation = allocationService.findByCourseId(id);
-		return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<>(allocation, HttpStatus.OK);
 	}
 	
 	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -85,7 +84,7 @@ public class AllocationController {
 		}
 	}
 	
-	@DeleteMapping(path = "/{allocation id}")
+	@DeleteMapping(path = "/{allocation_id}")
 	public ResponseEntity<Void> deleteById(@PathVariable(name="allocation_id")Long id){
 		allocationService.deleteById(id);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
