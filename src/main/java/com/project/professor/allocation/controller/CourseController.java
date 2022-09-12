@@ -19,6 +19,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.project.professor.allocation.entity.Course;
 import com.project.professor.allocation.service.CourseService;
 
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+
 @RestController
 @RequestMapping(path = "/courses")
 public class CourseController {
@@ -30,6 +34,10 @@ public class CourseController {
 		this.courseService = courseService;
 	}
 
+	@ApiOperation(value = "Find all coursess")
+	@ApiResponses({
+		@ApiResponse(code = 200, message = "OK")
+	})
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Course>> findAll(@RequestParam(name = "name", required = false) String name) {
 		List<Course> courses;
@@ -41,6 +49,12 @@ public class CourseController {
 		return new ResponseEntity<List<Course>>(courses, HttpStatus.OK);
 	}
 
+	@ApiOperation(value = "Find a course by Id")
+	@ApiResponses({
+		@ApiResponse(code = 200, message = "OK"),
+		@ApiResponse(code = 400, message = "BAD REQUEST"),
+		@ApiResponse(code = 404, message = "NOT FOUND")
+	})
 	@GetMapping(path = "/{course_id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Course> findById(@PathVariable(name = "course_id") Long id) {
 		Course course = courseService.findById(id);
@@ -51,6 +65,11 @@ public class CourseController {
 		}
 	}
 
+	@ApiOperation(value = "Create a course")
+	@ApiResponses({
+		@ApiResponse(code = 201, message = "OK"),
+		@ApiResponse(code = 400, message = "BAD REQUEST")
+	})
 	@PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Course> create(@RequestBody Course course) {
 
@@ -62,7 +81,13 @@ public class CourseController {
 		}
 	}
 
-	@PutMapping(path = "/course_id", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@ApiOperation(value = "Update a course by Id")
+	@ApiResponses({
+		@ApiResponse(code = 200, message = "OK"),
+		@ApiResponse(code = 400, message = "BAD REQUEST"),
+		@ApiResponse(code = 404, message = "NOT FOUND")
+	})
+	@PutMapping(path = "/{course_id}", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Course> update(@RequestBody Course course,
 			@PathVariable(name = "course_id", required = true) Long courseId) {
 		try {
@@ -78,12 +103,20 @@ public class CourseController {
 		}
 	}
 
-	@DeleteMapping(path = "/course_id")
+	@ApiOperation(value = "Delete a course by Id")
+	@ApiResponses({
+		@ApiResponse(code = 204, message = "NO CONTENT")
+	})
+	@DeleteMapping(path = "/{course_id}")
 	public ResponseEntity<Void> deleteById(@PathVariable(name = "course_id") Long id) {
 		courseService.deleteById(id);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
 
+	@ApiOperation(value = "Delete all courses")
+	@ApiResponses({
+		@ApiResponse(code = 204, message = "NO CONTENT")
+	})
 	@DeleteMapping
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public ResponseEntity<Void> deleteAll() {
