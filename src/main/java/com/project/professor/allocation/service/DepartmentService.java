@@ -2,20 +2,28 @@ package com.project.professor.allocation.service;
 
 import java.util.List;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.stereotype.Service;
 
 import com.project.professor.allocation.entity.Department;
+import com.project.professor.allocation.exceptions.AllocationExistsException;
 import com.project.professor.allocation.repository.DepartmentRepository;
+import com.project.professor.allocation.repository.ProfessorRepository;
 
 @Service
 public class DepartmentService {
 
 	private final DepartmentRepository departmentRepository;
+	private final ProfessorRepository professorRepository;
 
-	public DepartmentService(DepartmentRepository departmentRepository) {
+	public DepartmentService(DepartmentRepository departmentRepository, ProfessorRepository professorRepository) {
 		super();
 		this.departmentRepository = departmentRepository;
+		this.professorRepository = professorRepository;
 	}
+	
+	
 
 	public Department findById(Long id) {
 		return departmentRepository.findById(id).orElse(null);
@@ -38,11 +46,18 @@ public class DepartmentService {
 		return null;
 	}
 
-	public void deleteById(Long id) {
-		if (departmentRepository.existsById(id)) {
-			departmentRepository.deleteById(id);
+	
+	 public void deleteById(Long id)throws AllocationExistsException, EntityNotFoundException {
+		if (id!= null && departmentRepository.existsById(id)) {
+			if (professorRepository.findByDepartmentId(id).size()> 0) {
+				throw new AllocationExistsException ("Esse Departamento tem um professor");
+			}else {
+			departmentRepository.deleteById(id);}
+		}else {
+			throw new EntityNotFoundException ("O id do departamento não existe");
 		}
 	}
+
 
 	public void deleteAll() {
 		departmentRepository.deleteAllInBatch();
