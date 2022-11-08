@@ -2,6 +2,8 @@ package com.project.professor.allocation.controller;
 
 import java.util.List;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.professor.allocation.entity.Department;
+import com.project.professor.allocation.exceptions.AllocationExistsException;
 import com.project.professor.allocation.service.DepartmentService;
 
 import io.swagger.annotations.ApiOperation;
@@ -115,7 +118,7 @@ public class DepartmentController {
 	})
 	@DeleteMapping(path = "/{department_id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public ResponseEntity<Void> deleteDpt(@PathVariable(name = "department_id") Long id) {
+	public ResponseEntity<Void> deleteDpt(@PathVariable(name = "department_id") Long id) throws EntityNotFoundException, AllocationExistsException {
 		departmentService.deleteById(id);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
