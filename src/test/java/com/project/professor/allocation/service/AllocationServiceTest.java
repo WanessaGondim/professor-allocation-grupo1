@@ -37,10 +37,10 @@ public class AllocationServiceTest {
 		Allocation allocation = new Allocation();
 		allocation.setId(null);
 		allocation.setCourseId(1l);
-		allocation.setDay(DayOfWeek.MONDAY);
-		allocation.setProfessorId(1l);
-		allocation.setStart(sdf.parse("17:00-0300"));
-		allocation.setEnd(sdf.parse("20:00-0300"));
+		allocation.setDay(DayOfWeek.FRIDAY);
+		allocation.setProfessorId(2l);
+		allocation.setStart(sdf.parse("18:00-0300"));
+		allocation.setEnd(sdf.parse("21:00-0300"));
 		try {
 			allocationService.create(allocation);
 		} catch (HasCollisionException hcex) {

@@ -16,7 +16,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.project.professor.allocation.entity.Allocation;
 import com.project.professor.allocation.entity.Professor;
+import com.project.professor.allocation.exceptions.NotDeleteProfessorWithAllocationException;
+import com.project.professor.allocation.service.AllocationService;
 import com.project.professor.allocation.service.ProfessorService;
 
 import io.swagger.annotations.ApiOperation;
@@ -28,10 +31,12 @@ import io.swagger.annotations.ApiResponses;
 public class ProfessorController {
 	
 	private final ProfessorService professorService;
+	private final AllocationService allocationService;
 
-	public ProfessorController(ProfessorService professorService) {
+	public ProfessorController(ProfessorService professorService, AllocationService allocationService) {
 		super();
 		this.professorService = professorService;
+		this.allocationService  = allocationService;
 	}
 	
 	@ApiOperation(value = "Find all professors")
@@ -91,9 +96,20 @@ public class ProfessorController {
 		@ApiResponse(code = 204, message = "NO CONTENT")
 	})
 	@DeleteMapping(path = "/{professor_id}")
-	public ResponseEntity<Void> deleteProf(@PathVariable(name = "professor_id") Long id) {
-		professorService.deleteById(id);
-		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+	public ResponseEntity<String> deleteProf(@PathVariable(name = "professor_id") Long id) {
+		try {
+			List<Allocation> allcotion = allocationService.findByProfessorId(id);
+			if(!allcotion.isEmpty())
+			{
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Não pode deletar um professor com alocações. Remova as alocações primeiro e em seguida remova o professor.");
+			};
+			
+			professorService.deleteById(id);
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		} catch (NotDeleteProfessorWithAllocationException e) {
+			return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+		
 	}
 	
 	@ApiOperation(value = "Delete all professors")

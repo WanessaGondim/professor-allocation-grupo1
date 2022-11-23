@@ -4,8 +4,10 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.project.professor.allocation.entity.Allocation;
 import com.project.professor.allocation.entity.Department;
 import com.project.professor.allocation.entity.Professor;
+import com.project.professor.allocation.exceptions.NotDeleteProfessorWithAllocationException;
 import com.project.professor.allocation.repository.ProfessorRepository;
 
 @Service
@@ -52,7 +54,7 @@ public class ProfessorService {
 		}
 	}
 
-	public void deleteById(Long id) {
+	public void deleteById(Long id) throws NotDeleteProfessorWithAllocationException {
 		if (professorRepository.existsById(id)) {
 			professorRepository.deleteById(id);
 		}
